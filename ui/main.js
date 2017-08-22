@@ -12,4 +12,11 @@ submit.onclick = function(){
         }
     }
 };
+var username = document.getElementById('username').value;
+var password = document.getElementById('password').value;
+console.log(username);
+console.log(password);
+request.open('POST', 'http://parveesh159.imad.hasura-app.io/login', true);
+request.setRequestheader('Content-type', 'application/json');
+request.send(JSON.stringfy({username: username, password: password}));
 
