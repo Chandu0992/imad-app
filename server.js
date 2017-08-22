@@ -17,7 +17,7 @@ app.use(morgan('combined'));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-function hash(input){
+function hash(input,salt){
 	var hashed = crypto.pbkdf25nc(input,salt,10000,512,'sha512');
 	return hashed.toString('hex');
 }
