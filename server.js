@@ -57,8 +57,10 @@ app.post('/login',function(req,res){
 		    var dbString = result.rows[0].password;
 		    var salt = dbString.split('$')[2];
 		    var hashedPassword = hash(password, salt);
-		    if(hashedPassword == dbString){
+		    if(hashedPassword === dbString){
 		        res.send('Username and Password is Correct');
+		        req.session.auth = {userId: result.rows[0].Id};
+		        
 		    }else{
 		    res.send(403).send('Username or Password is InCorrect');
 		}
@@ -66,6 +68,15 @@ app.post('/login',function(req,res){
 		}
 	});
 });
+
+app.get('/check-login', function(req, res){
+	if(req.session && req.session.auth && req.session.auth.userId){
+		res.send('You are Logged in : ' + req.session.auth.userId.toString());
+	}else{
+		res.send(403).send('username/password is invalid');
+	}
+});
+
 
 var pool = new Pool(config);
 app.get('/test-db',function(req, res){
